@@ -24,7 +24,8 @@ public class ExtractorIEEE extends Extractor {
     public ExtractorIEEE(int inicio, int fin){super(inicio,fin);}
 
 
-    public  void Empezar()
+    int total = 0;
+    public int Empezar()
     {
 
 
@@ -55,6 +56,7 @@ public class ExtractorIEEE extends Extractor {
                         TratarRevista(oarticulo);
 
                         CrearObjetosBaseDeDatos();
+                        total++;
                     } else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
                 }catch (Exception e){e.printStackTrace();}
@@ -64,7 +66,7 @@ public class ExtractorIEEE extends Extractor {
         {
             e.printStackTrace();
         }
-
+        return total;
     }
 
     public List<Persona> CrearPersona()

@@ -21,8 +21,8 @@ public class ExtractorScholar extends Extractor {
 
     public ExtractorScholar(int inicio, int fin){super(inicio,fin);}
 
-
-    public void Empezar(){
+    int total = 0;
+    public int Empezar(){
 
         try {
             String contents = new String(Files.readAllBytes((Paths.get(path + "\\Scholar.json"))));
@@ -49,6 +49,7 @@ public class ExtractorScholar extends Extractor {
                         TratarPaginas(oarticulo);
                         TratarRevista(oarticulo);
                         CrearObjetosBaseDeDatos();
+                        total++;
                     }
                     else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
@@ -78,6 +79,7 @@ public class ExtractorScholar extends Extractor {
                         TratarLibro(olibro);
 
                         CrearObjetosBaseDeDatosLibros();
+                        total++;
                     }
                     else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
@@ -130,6 +132,7 @@ public class ExtractorScholar extends Extractor {
                 TratarTituloLibro(incollection);
 
                 CrearObjetosBaseDeDatosLibros();
+                total++;
             }
             catch(Exception e) {
                 System.err.println("Abortada la creacion por un error al interpretar el JSON");
@@ -140,8 +143,7 @@ public class ExtractorScholar extends Extractor {
         {
             e.printStackTrace();
         }
-
-
+        return total;
     }
 
     public void CrearObjetosBaseDeDatosLibros() {

@@ -24,7 +24,8 @@ public class ExtractorDBLP extends Extractor {
 
     public ExtractorDBLP(int inicio, int fin){super(inicio,fin);}
 
-    public  void Empezar() {
+    int total = 0;
+    public  int Empezar() {
         try {
             String contents = new String(Files.readAllBytes((Paths.get(path + "\\DBLP.json"))));
             JSONObject o = new JSONObject(contents);
@@ -50,6 +51,7 @@ public class ExtractorDBLP extends Extractor {
                         //Crecion del objeto con las variables dadas:
 
                         CrearObjetosBaseDeDatos();
+                        total++;
                     }
                     else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
@@ -62,6 +64,7 @@ public class ExtractorDBLP extends Extractor {
         } catch(IOException e) {
             e.printStackTrace();
         }
+        return total;
     }
 
     public void TratarVolumen(JSONObject oarticulo)
