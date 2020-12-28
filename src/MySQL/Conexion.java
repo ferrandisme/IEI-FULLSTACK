@@ -36,9 +36,9 @@ public class Conexion {
             e.printStackTrace();
         }
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb",
+        	conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb" + "?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     "root",
-                    password);
+                    password); 
         } catch (SQLException e) {
             e.printStackTrace();
         }
