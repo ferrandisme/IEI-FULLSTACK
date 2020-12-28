@@ -1,4 +1,7 @@
 .metadata
+.classpath
+pomp.properties
+target/
 bin/
 tmp/
 *.tmp
