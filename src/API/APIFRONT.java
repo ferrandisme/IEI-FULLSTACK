@@ -20,19 +20,19 @@ public class APIFRONT {
                                         API CARGA
      */
 
-    public static void LoadDBP(int inicio, int fin) {
+    public static int LoadDBP(int inicio, int fin) {
         ExtractorDBLP DBLP = new ExtractorDBLP(inicio, fin);
-        DBLP.Empezar();
+        return DBLP.Empezar();
     }
 
-    public static void LoadIEEE(int inicio, int fin) {
+    public static int LoadIEEE(int inicio, int fin) {
         ExtractorIEEE IEEE = new ExtractorIEEE(inicio, fin);
-        IEEE.Empezar();
+        return IEEE.Empezar();
     }
 
-    public static void LoadSchoolar(int inicio, int fin) {
+    public static int LoadSchoolar(int inicio, int fin) {
         ExtractorScholar scholar = new ExtractorScholar(inicio, fin);
-        scholar.Empezar();
+        return scholar.Empezar();
     }
 
 
