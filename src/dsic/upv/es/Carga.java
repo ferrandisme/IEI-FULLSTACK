@@ -20,11 +20,11 @@ public class Carga {
 		return "<ctofservice>" + "<celsius>" + celsius + "</celsius>" + "<ctofoutput>" + result + "</ctofoutput>" + "</ctofservice>";
 	}*/
 	
-	@Path("{db1}/{db2}/{db3}/{a}/{b}")
+	@Path("{a}&{b}&{db1}&{db2}&{db3}&{enviar}")
 	@GET
 	@Produces("application/xml")
 	public String getResult(@PathParam("db1") String baseDatos1,@PathParam("db2") String baseDatos2,@PathParam("db3") String baseDatos3,
-			@PathParam("a") int anyoInicio, @PathParam("b") int anyoFin) {
+			@PathParam("a") String anyoInicio, @PathParam("b") String anyoFin) {
 		
 		
 		//Llamada jar compilado
@@ -33,7 +33,7 @@ public class Carga {
 		
 		System.out.println("CONSULTA:" + baseDatos1 + " " + baseDatos2 + " " + baseDatos3 + " " + anyoInicio + " " + anyoFin);
 		String result = "@Produces(\"application/xml\") Output: \n\n Cargadado con exito: \n\n";
-		return "<ctofservice>" +"<ctofoutput>" + result + "</ctofoutput>"+ "</ctofservice>";
+		return "<ctofservice>" +"<ctofoutput>" +  result + "</ctofoutput>"+ "</ctofservice>";
 		
 		/*
 		Double fahrenheit;
