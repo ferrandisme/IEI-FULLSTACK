@@ -84,7 +84,7 @@
 	<!-- Lo siguiente viene de aquí: https://stackoverflow.com/questions/547821/two-submit-buttons-in-one-form -->
 	<!-- Faltaría el código que dice en esa web -->
 	<div class="formulario">
-		<form action="http://localhost:8081/IEI/servicios/Carga/" method="get">
+		<form action="http://localhost:8081/IEI/servicios/Carga/" method="GET">
 	      <label>Desde el año:</label><br>
 	      
 	      <input type="number" input id="buscarAnyoIni" name="anyoIni" size="50" ><br><br>

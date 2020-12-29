@@ -1,9 +1,12 @@
 .metadata
 .classpath
+*.metadata
+*.classpath
 pomp.properties
 target/
 bin/
 tmp/
+*.class
 *.tmp
 *.bak
 *.swp
