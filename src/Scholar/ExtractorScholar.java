@@ -48,8 +48,8 @@ public class ExtractorScholar extends Extractor {
                         TratarURL(oarticulo);
                         TratarPaginas(oarticulo);
                         TratarRevista(oarticulo);
-                        CrearObjetosBaseDeDatos();
-                        total++;
+                        if(CrearObjetosBaseDeDatos())
+                        	total++;
                     }
                     else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
@@ -78,8 +78,8 @@ public class ExtractorScholar extends Extractor {
                         //TratarEditorial(olibro);
                         TratarLibro(olibro);
 
-                        CrearObjetosBaseDeDatosLibros();
-                        total++;
+                        if(CrearObjetosBaseDeDatosLibros())
+                        	total++;
                     }
                     else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
@@ -108,7 +108,8 @@ public class ExtractorScholar extends Extractor {
                     TratarLugar(inproceedings);
                     TratarTituloLibro(incollection);
 
-                    CrearObjetosBaseDeDatosComunicacion();
+                    if(CrearObjetosBaseDeDatosComunicacion())
+                        total++;
                 }
                 else
                     System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
@@ -131,8 +132,8 @@ public class ExtractorScholar extends Extractor {
                 //TratarEditorial(incollection);
                 TratarTituloLibro(incollection);
 
-                CrearObjetosBaseDeDatosLibros();
-                total++;
+                if(CrearObjetosBaseDeDatosLibros())
+                	total++;
             }
             catch(Exception e) {
                 System.err.println("Abortada la creacion por un error al interpretar el JSON");
@@ -146,7 +147,7 @@ public class ExtractorScholar extends Extractor {
         return total;
     }
 
-    public void CrearObjetosBaseDeDatosLibros() {
+    public boolean CrearObjetosBaseDeDatosLibros() {
         Publicacion = CreadorObjetos.CrearPublicacion(titulo, anyo, URL);
         Libro = CreadorObjetos.CrearLibro(titulo, anyo, URL, libro);
         if (Publicacion != null && Conexion.obtenerIdPublicacion(titulo, anyo, URL) == -9 && Libro != null) {
@@ -159,12 +160,13 @@ public class ExtractorScholar extends Extractor {
                 }
 
                     Insercion.insertarLibro(idpublicacion, Libro);
-
+                return true;
             }
         }
+        return false;
     }
 
-    public void CrearObjetosBaseDeDatosComunicacion(){
+    public boolean CrearObjetosBaseDeDatosComunicacion(){
         Publicacion = CreadorObjetos.CrearPublicacion(titulo, anyo, URL);
         Comunicacion = CreadorObjetos.CrearComunicacion(titulo, anyo, URL, edicion, lugar, pagIni, pagFin);
         if (Publicacion != null && Conexion.obtenerIdPublicacion(titulo, anyo, URL) == -9 && Comunicacion != null) {
@@ -176,9 +178,10 @@ public class ExtractorScholar extends Extractor {
                     Insercion.insertarRelacion(autores, idpublicacion);
                 }
                     Insercion.insertarComunicacionCongreso(idpublicacion, Comunicacion);
-
+                   return true; 
             }
         }
+        return false;
     }
 
     public  void TratarAutores(JSONObject oarticulo)

@@ -55,8 +55,9 @@ public class ExtractorIEEE extends Extractor {
                         TratarURL(oarticulo);
                         TratarRevista(oarticulo);
 
-                        CrearObjetosBaseDeDatos();
-                        total++;
+                        if(CrearObjetosBaseDeDatos())
+                        	total++;
+                        
                     } else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
                 }catch (Exception e){e.printStackTrace();}

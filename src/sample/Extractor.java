@@ -34,7 +34,7 @@ public class Extractor {
     public int anyoFin;
     public int anyoInicio;
 
-    public void CrearObjetosBaseDeDatos(){
+    public boolean CrearObjetosBaseDeDatos(){
         Publicacion = CreadorObjetos.CrearPublicacion(titulo, anyo, URL);
         Articulo = CreadorObjetos.CrearArticulo(titulo, anyo, URL, pagIni, pagFin);
         Revista = CreadorObjetos.CrearRevista(revista);
@@ -58,8 +58,10 @@ public class Extractor {
 
                 //insertar articulo
                     Insercion.insertarArticulo(idejemplar, idpublicacion, Articulo);
+                    return true;
             }
         }
+        return false;
     }
 
     public void ReiniciarVariables(){

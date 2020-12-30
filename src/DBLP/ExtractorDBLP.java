@@ -50,8 +50,8 @@ public class ExtractorDBLP extends Extractor {
                         TratarURL(oarticulo);
                         //Crecion del objeto con las variables dadas:
 
-                        CrearObjetosBaseDeDatos();
-                        total++;
+                        if(CrearObjetosBaseDeDatos())
+                        	total++;
                     }
                     else
                         System.out.println("Omitiendo año porque no esta entre los valores dados " + anyo);
