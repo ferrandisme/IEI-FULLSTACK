@@ -5,6 +5,7 @@
 pomp.properties
 target/
 bin/
+build/
 tmp/
 *.class
 *.tmp

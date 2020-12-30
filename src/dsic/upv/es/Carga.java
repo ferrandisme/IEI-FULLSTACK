@@ -33,7 +33,7 @@ public class Carga {
 				inicio = 1970;
 				throw new Exception();
 			}
-		}catch(Exception e) {errores += "No se ha podido obtener el año de inicio, utilizando el año " + inicio + "  por defecto" + saltoLinea;}
+		}catch(Exception e) {errores += "No se ha podido obtener el a&ntilde;o de inicio, utilizando el a&ntilde;o " + inicio + "  por defecto" + saltoLinea;}
 		try {
 			fin = Integer.parseInt(anyoFin);
 			if(fin == 0)
@@ -41,7 +41,7 @@ public class Carga {
 				fin = 1970;
 				throw new Exception();
 			}
-		}catch(Exception e) {errores += "No se ha podido obtener el año de fin, utilizando el año " + fin + "  por defecto" + saltoLinea;}
+		}catch(Exception e) {errores += "No se ha podido obtener el a&ntilde;o de fin, utilizando el a&ntilde;o " + fin + "  por defecto" + saltoLinea;}
 		
 		String datosCargados = "";
 		
