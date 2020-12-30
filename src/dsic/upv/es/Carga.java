@@ -21,7 +21,6 @@ public class Carga {
 		return "<ctofservice>" + "<celsius>" + celsius + "</celsius>" + "<ctofoutput>" + result + "</ctofoutput>" + "</ctofservice>";
 	}*/
 	
-	@Path("/")
 	@GET
 	@Produces("text/html")
 	public String getResult(
