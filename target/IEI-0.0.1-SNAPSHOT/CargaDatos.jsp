@@ -84,24 +84,25 @@
 	<!-- Lo siguiente viene de aquí: https://stackoverflow.com/questions/547821/two-submit-buttons-in-one-form -->
 	<!-- Faltaría el código que dice en esa web -->
 	<div class="formulario">
-		<form>
+		<form action="http://localhost:8081/IEI/servicios/Carga/" method="GET">
 	      <label>Desde el año:</label><br>
-	      <input type="number" id="buscarAnyoIni" size="50"><br><br>
+	      
+	      <input type="number" input id="buscarAnyoIni" name="anyoIni" size="50" ><br><br>
 	      
 	      <label>Hasta el año:</label><br>
-	      <input type="number" id="buscarAnyoFin" size="50"><br><br>
+	      <input type="number" input id="buscarAnyoFin" name="anyoFin"  size="50"><br><br>
 	      
 	      <label>Fuente de datos:</label><br>
-	      <input type="checkbox" id="dat1">
+	      <input type="checkbox" input id="dat1" name="checkDBLP">
 		  <label for="dat1"> DBLP</label><br>
 		  
-		  <input type="checkbox" id="dat2">
+		  <input type="checkbox" input id="dat2" name="checkIEEE">
 		  <label for="dat2"> IEEE Xplore</label><br>
 		  
-		  <input type="checkbox" id="dat3">
+		  <input type="checkbox" input id="dat3" name="checkGOOG">
 		  <label for="dat3"> Google Scholar</label><br><br><br>
 	      
-	      <input class = "button1"  type="button" name="update" value="Enviar" />
+	      <input class = "button1"  type="submit" name="submit" value="Enviar" />
 	      <input class = "button2"  type="button" name="back" value="Volver" />
 	    </form> 
 	</div>

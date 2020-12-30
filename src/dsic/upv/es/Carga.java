@@ -4,6 +4,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
 import API.APIFRONT;
 
 @Path("/Carga/")
@@ -19,13 +21,17 @@ public class Carga {
 		return "<ctofservice>" + "<celsius>" + celsius + "</celsius>" + "<ctofoutput>" + result + "</ctofoutput>" + "</ctofservice>";
 	}*/
 	
-	@Path("{a}&{b}&{db1}&{db2}&{db3}&{ignoreEnviar}")
+	@Path("/")
 	@GET
 	@Produces("text/html")
-	public String getResult(@PathParam("db1") String baseDatos1,@PathParam("db2") String baseDatos2,@PathParam("db3") String baseDatos3,
-			@PathParam("a") String anyoInicio, @PathParam("b") String anyoFin) {
+	public String getResult(
+			@QueryParam("checkDBLP") String baseDatos1,
+			@QueryParam("checkIEEE") String baseDatos2,
+			@QueryParam("checkGOOG") String baseDatos3,
+			@QueryParam("anyoIni") String anyoInicio,
+			@QueryParam("anyoFin") String anyoFin) {
 		
-		
+		/*
 		//Llamada jar compilado
 		String errores = "";
 		
@@ -64,15 +70,20 @@ public class Carga {
 		//return "<ctofservice>" +"<ctofoutput>" +  result + "</ctofoutput>"+ "</ctofservice>";
 		
 		
-		System.out.println("Errores: " + errores);
+		System.out.println("Errores: " + errores);*/
 		return  "<html>\r\n"
 				+ "<body>\r\n"
-				+ "\r\n"
-				+ "<h2>HTML Forms</h2>\r\n"
-				+ "\r\n"
-				+ "\r\n"
-				+ "<p>If you click the \"Submit\" button, the form-data will be sent to a page called \"/action_page.php\".</p>\r\n"
-				+ "\r\n"
+				+ "<br>\r\n"
+				+ anyoInicio
+				+ "<br>\r\n"
+				+ anyoFin
+				+ "<br>\r\n"
+				+ baseDatos1
+				+ "<br>\r\n"
+				+ baseDatos2
+				+ "<br>\r\n"
+				+ baseDatos3
+				+ "<br>\r\n"
 				+ "</body>\r\n"
 				+ "</html>" ;
 		
