@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 public class APIFRONT {
 
 
@@ -41,17 +43,19 @@ public class APIFRONT {
                                         API BUSQUEDA
      */
 
-    public static void Buscar(String autor, String titulo, String inicio, String fin, boolean esArticulo, boolean esLibro, boolean esComunicacionCongreso) {
+    public static List<String> Buscar(String autor, String titulo, String inicio, String fin, boolean esArticulo, boolean esLibro, boolean esComunicacionCongreso) {
         Connection con = Conexion.abrirConexion();
         //TODO Deberiamos ver si lo contiene quiza, en vez de ver si es exactamente el mismo
-        String sql = "SELECT idpublicacion FROM publicacion WHERE titulo LIKE ? AND anyo >= ? AND anyo <= ?;";
+        String sql = "SELECT * FROM publicacion WHERE titulo LIKE ? AND anyo >= ? AND anyo <= ?;";
+        int id = 0;
+        //JSONObject resultado = new JSONObject();
+        List<String> resultado = new ArrayList<String>();
         try {
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, "%"+titulo+"%");
             statement.setString(2, inicio);
             statement.setString(3, fin);
             ResultSet result = statement.executeQuery();
-
             while(result.next()){
                 int idPublicacion = result.getInt("idpublicacion");
                 System.out.println("PUBLICACION ENCONTRADA:" + idPublicacion + " , procedemos a comprobar si coincide con algun tipo");
@@ -60,13 +64,28 @@ public class APIFRONT {
                     System.out.println("Encontrados " + autores.size() +" autor/es");
                     if (esArticulo) {
                         //Comprueba si existe un articulo con ese ID
-                        esArticulo(con, idPublicacion);
+                        String articulo = esArticulo(con, idPublicacion);
+                        if(articulo != null && articulo.length() > 0) {
+                        	articulo += "AUTORES \n";
+                        	for(int i = 0; i < autores.size(); i++)
+                        		articulo += autores.get(i) + "\n";
+                        	
+                        	articulo =  "ARTICULO \n"+
+                        				"Titulo: " + result.getString("titulo") + "\n"+
+                        				"Año: " + result.getString("anyo") + "\n"+
+                        				"URL: " + result.getString("URL") + "\n"
+                        				+ articulo;
+                        	
+                        	System.out.println("-------------ARTICULO ENCONTRADO-------------  \n" + articulo + "\n" + "-------------------------------");
+                        	//resultado.put(articulo, id++);
+                        	resultado.add(articulo);
+                        }
                     }
-                    if (esLibro) {
+                    if (esLibro) { //NOT DONE
                         //Comprueba si existe un Libro con ese ID
                         esLibro(con, idPublicacion);
                     }
-                    if (esComunicacionCongreso) {
+                    if (esComunicacionCongreso) { //NOT DONE
                         //Comprueba si existe una Comunicacion con ese ID
                         esComunicacionCongreso(con, idPublicacion);
                     }
@@ -84,9 +103,11 @@ public class APIFRONT {
             Conexion.cerrarConexion();
         } catch (SQLException e) { e.printStackTrace();
         }
+        Conexion.cerrarConexion();
+        return resultado;
     }
 
-    private static void esArticulo(Connection con, int idPublicacion){
+    private static String esArticulo(Connection con, int idPublicacion){
         String sql = "SELECT * FROM articulo WHERE idpublicacion = ? ;";
         try{
             PreparedStatement statement = con.prepareStatement(sql);
@@ -94,11 +115,16 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Encontrado Articulo " + idPublicacion);
-                //Aqui podemos leer los datos, haciendo por ejemplo cosas como result.getInt("idpublicacion");
+                String articulo = "Pagina inicio:" + result.getInt("paginainicio") + "\n" +
+                				"Pagina fin:" + result.getInt("paginafin") + "\n";
+                articulo += getEjemplarYRevista(con, result.getInt("id_ejemplar"));
+                return articulo;
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private static void esLibro(Connection con, int idPublicacion){
@@ -188,4 +214,44 @@ public class APIFRONT {
         }
         return res;
     }
+    
+    private static String getEjemplarYRevista(Connection con, int idEjemplar) {
+    
+        String sql = "SELECT * FROM ejemplar WHERE idejemplar = ? ;";
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, idEjemplar + "");
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                String res = "Ejemplar \n"+ 
+                		"Volumen:" + result.getString("volumen") + "\n" + 
+                				"Numero:" + result.getString("numero") + "\n"+
+                				"Mes:" + result.getString("mes") + "\n";
+                res += getRevista(con, result.getInt("id_revista"));
+                return res;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    	return "";
+    }
+    	
+    private static String getRevista(Connection con, int idrevista){
+        String sql = "SELECT * FROM revista WHERE idrevista = ? ;";
+        try{
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, idrevista + "");
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                String revista = "REVISTA \n"+
+                		"Nombre:" + result.getString("nombre") + "\n";
+                return revista;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+    
+    
 }
