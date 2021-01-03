@@ -60,6 +60,19 @@
 	  margin: 4px 2px;
 	  cursor: pointer;
 	}
+	
+	.button3 {
+	  background-color: #088AF3;
+	  border: none;
+	  color: white;
+	  padding: 15px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 14px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+	}
     
 </style>
 
@@ -84,7 +97,7 @@
 	<!-- Lo siguiente viene de aquí: https://stackoverflow.com/questions/547821/two-submit-buttons-in-one-form -->
 	<!-- Faltaría el código que dice en esa web -->
 	<div class="formulario">
-		<form action="http://localhost:8081/IEI/servicios/Carga/" method="GET">
+		<form action="http://localhost:8081/IEI/servicios/Carga/" method="GET" id="datos">
 	      <label>Desde el año:</label><br>
 	      
 	      <input type="number" input id="buscarAnyoIni" name="anyoIni" size="50" ><br><br>
@@ -103,10 +116,17 @@
 		  <label for="dat3"> Google Scholar</label><br><br><br>
 	      
 	      <input class = "button1"  type="submit" name="submit" value="Enviar" />
-	      <input class = "button2"  type="button" name="back" value="Volver" />
+	      <input class = "button3"  type="button" name="delete" value="Limpiar"  onclick="limpiar()" />
+	      <input class = "button2"  type="button" name="back" value="Cancelar" onclick="location.href='http://localhost:8081/IEI/main.jsp'"/>
 	    </form> 
 	</div>
 </div>
+
+<script>
+function limpiar() {
+  document.getElementById("datos").reset();
+}
+</script>
 
 </body>
 </html>
