@@ -96,7 +96,7 @@
 	<!-- Lo siguiente viene de aquí: https://stackoverflow.com/questions/547821/two-submit-buttons-in-one-form -->
 	<!-- Faltaría el código que dice en esa web -->
 	<div class="formulario">
-		<form action="http://localhost:8081/IEI/Resultados.jsp" method="get">
+		<form action="http://localhost:8081/IEI/Resultados.jsp" method="get" id="datos">
 	      <label>Autor/es:</label><br>
 	      <input type="text" id="buscarAutor" size="50"><br><br>
 	      
@@ -120,11 +120,18 @@
 		  <label for="pub3"> Comunicación en congreso</label><br><br><br>
 	      
 	      <input class = "button1"  type="submit" name="update" value="Enviar" />
-	      <input class = "button2"  type="button" name="delete" value="Limpiar" />
-	      <input class = "button3"  type="button" name="data" value="Cargar datos" />
+	      <input class = "button2"  type="button" name="delete" value="Limpiar"  onclick="limpiar()" />
+	      <input class = "button3"  type="button" name="data" value="Cargar datos" onclick="location.href='http://localhost:8081/IEI/CargaDatos.jsp'" />
+
 	    </form> 
 	</div>
 </div>
+
+<script>
+function limpiar() {
+  document.getElementById("datos").reset();
+}
+</script>
 
 </body>
 </html>
