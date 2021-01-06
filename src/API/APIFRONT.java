@@ -81,13 +81,42 @@ public class APIFRONT {
                         	resultado.add(articulo);
                         }
                     }
-                    if (esLibro) { //NOT DONE
-                        //Comprueba si existe un Libro con ese ID
-                        esLibro(con, idPublicacion);
+                    if (esLibro) {
+                    	String libro = esLibro(con, idPublicacion);
+                        if(libro != null && libro.length() > 0) {
+                        	libro += "AUTORES \n";
+                        	for(int i = 0; i < autores.size(); i++)
+                        		libro += autores.get(i) + "\n";
+                        	
+                        	libro =  "LIBRO \n"+
+                        				"Titulo: " + result.getString("titulo") + "\n"+
+                        				"Año: " + result.getString("anyo") + "\n"+
+                        				"URL: " + result.getString("URL") + "\n"
+                        				+ libro;
+                        	
+                        	System.out.println("-------------LIBRO ENCONTRADO-------------  \n" + libro + "\n" + "-------------------------------");
+                        	//resultado.put(articulo, id++);
+                        	resultado.add(libro);
+                        }
                     }
                     if (esComunicacionCongreso) { //NOT DONE
-                        //Comprueba si existe una Comunicacion con ese ID
-                        esComunicacionCongreso(con, idPublicacion);
+                       
+                    	String comunicacion = esComunicacionCongreso(con, idPublicacion);
+                        if(comunicacion != null && comunicacion.length() > 0) {
+                        	comunicacion += "AUTORES \n";
+                        	for(int i = 0; i < autores.size(); i++)
+                        		comunicacion += autores.get(i) + "\n";
+                        	
+                        	comunicacion =  "COMUNICACION CONGRESO \n"+
+                        				"Titulo: " + result.getString("titulo") + "\n"+
+                        				"Año: " + result.getString("anyo") + "\n"+
+                        				"URL: " + result.getString("URL") + "\n"
+                        				+ comunicacion;
+                        	
+                        	System.out.println("-------------COMUNICACION ENCONTRADA-------------  \n" + comunicacion + "\n" + "-------------------------------");
+                        	//resultado.put(articulo, id++);
+                        	resultado.add(comunicacion);
+                        }
                     }
                 }
             }
@@ -116,7 +145,7 @@ public class APIFRONT {
             if (result.next()) {
                 System.out.println("Encontrado Articulo " + idPublicacion);
                 String articulo = "Pagina inicio:" + result.getInt("paginainicio") + "\n" +
-                				"Pagina fin:" + result.getInt("paginafin") + "\n";
+                					"Pagina fin:" + result.getInt("paginafin") + "\n";
                 articulo += getEjemplarYRevista(con, result.getInt("id_ejemplar"));
                 return articulo;
                 
@@ -127,7 +156,7 @@ public class APIFRONT {
         return null;
     }
 
-    private static void esLibro(Connection con, int idPublicacion){
+    private static String esLibro(Connection con, int idPublicacion){
         String sql = "SELECT * FROM libro WHERE idpublicacion = ? ;";
         try{
             PreparedStatement statement = con.prepareStatement(sql);
@@ -135,14 +164,18 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Encontrado Libro " + idPublicacion);
+                String articulo = "Editorial:" + result.getString("editorial") + "\n";
+                return articulo;
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
-    private static void esComunicacionCongreso(Connection con, int idPublicacion){
+    private static String esComunicacionCongreso(Connection con, int idPublicacion){
         String sql = "SELECT * FROM comunicacion WHERE idpublicacion = ? ;";
         try{
             PreparedStatement statement = con.prepareStatement(sql);
@@ -150,10 +183,17 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Encontrada Comunicacion " + idPublicacion);
+                String comunicacion = "Edicion:" + result.getString("edicion") + "\n" + 
+                					  "Lugar:" + result.getString("lugar") + "\n" +
+                					  "Pagina Inicio:" + result.getInt("paginainicio") + "\n" +
+                					  "Pagina Fin:" + result.getString("edicion") + "\n" ;
+                return comunicacion;
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
@@ -224,7 +264,7 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 String res = "Ejemplar \n"+ 
-                		"Volumen:" + result.getString("volumen") + "\n" + 
+                				"Volumen:" + result.getString("volumen") + "\n" + 
                 				"Numero:" + result.getString("numero") + "\n"+
                 				"Mes:" + result.getString("mes") + "\n";
                 res += getRevista(con, result.getInt("id_revista"));
