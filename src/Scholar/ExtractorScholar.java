@@ -48,6 +48,7 @@ public class ExtractorScholar extends Extractor {
                         TratarURL(oarticulo);
                         TratarPaginas(oarticulo);
                         TratarRevista(oarticulo);
+                        TratarVolumen(oarticulo);
                         if(CrearObjetosBaseDeDatos())
                         	total++;
                     }
@@ -274,6 +275,20 @@ public class ExtractorScholar extends Extractor {
         }else
         {
             numeroEjemplar = oNumber.toString();
+        }
+    }
+    
+    public void TratarVolumen(JSONObject oarticulo)
+    {
+        Object oVolume = null;
+        try {
+            oVolume = oarticulo.get("volume");
+        }
+        catch(Exception e){}
+        if(oVolume == null){
+        }else
+        {
+            volumen = oVolume.toString();
         }
     }
 
