@@ -4,6 +4,7 @@ import DBLP.ExtractorDBLP;
 import IEEE.ExtractorIEEE;
 import MySQL.Conexion;
 import Scholar.ExtractorScholar;
+import sample.Main;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +34,7 @@ public class APIFRONT {
     }
 
     public static int LoadSchoolar(int inicio, int fin) {
+    	Main.Chrome(inicio, fin);
         ExtractorScholar scholar = new ExtractorScholar(inicio, fin);
         return scholar.Empezar();
     }

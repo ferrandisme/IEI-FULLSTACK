@@ -15,6 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONPointer;
 import org.json.JSONTokener;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +33,7 @@ import java.util.List;
 public class Main {
 
 
-    //private static WebDriver driver = null;
+    private static WebDriver driver = null;
 
 
     //EJEMPLO LLAMADA A MAIN
@@ -40,8 +45,8 @@ public class Main {
     	//System.out.println("Fin ejecucion");
     	
     	
-    	/*
-        //Chrome();
+    	//Chrome(1970, 1990);
+        /*
         try {
             String type = args[0]; //
 
@@ -96,6 +101,41 @@ public class Main {
         APIFRONT.Buscar("", "Information Uses and Gratifications Related to Crisis: Student Perceptions since the Egyptian Uprising", "0", "2020", true, true, true);
     }*/
 
+    public static void Chrome(int inicio, int fin){
+        String exepath = "C:\\Users\\jaime\\IdeaProjects\\IEI\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver", exepath);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        driver = new ChromeDriver(options);
+        driver.get("https://scholar.google.es/");
+        WebElement elemento = driver.findElement(By.xpath("html/body/div/div[7]/a[1]"));
+        elemento.click();
+        WebElement element = driver.findElement(By.xpath("html/body/div/div[6]/div/div[2]/div[2]/a"));
+        element.click();
+        WebElement anyoInicio = driver.findElement(By.xpath("html/body/div/div[4]/div/div[2]/form/div[9]/div[2]/div[1]/div[1]/input"));
+        anyoInicio.sendKeys(inicio + "");
+        WebElement anyoFin = driver.findElement(By.xpath("html/body/div/div[4]/div/div[2]/form/div[9]/div[2]/div[1]/div[2]/input"));
+        anyoFin.sendKeys(fin + "");
+        WebElement buscar = driver.findElement(By.xpath("html/body/div/div[4]/div/div[1]/div/button/span/span[1]"));
+        buscar.click();
+        WebElement citas = driver.findElement(By.xpath("/html/body/div/div[10]/div[1]/div/ul[3]/li[2]/a/span[2]"));
+        citas.click();
+        List<WebElement> listaElementos =
+				driver.findElements(By.xpath("//*[contains(@class, 'gs_r gs_or gs_scl')]"));
+				System.out.println("Número de elementos de la lista: " + listaElementos.size());
+				// Obtener cada uno de los artículos
+				WebElement elementoActual, navegacion;
+				int j=1;
+				for (int i=0; i<listaElementos.size(); i++)
+				{
+				elementoActual = listaElementos.get(i);
+				navegacion =
+				elementoActual.findElement(By.xpath("/html/body/div/div[10]/div[2]/div[2]/div[2]/div[" + j +
+				"]" + "/div/h3/a" ));
+				System.out.println(j + " " + navegacion.getText());
+				j++;
+				}
+    }
 
     public static String TratarJSON(String argumento, JSONObject objeto)
     {
