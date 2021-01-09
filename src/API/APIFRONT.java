@@ -99,7 +99,7 @@ public class APIFRONT {
                         	
                         	libro =  "LIBRO \n"+
                         				"Titulo: " + result.getString("titulo") + saltoLinea+
-                        				"Año: " + result.getString("anyo") + saltoLinea+
+                        				"A&ntilde;o: " + result.getString("anyo") + saltoLinea+
                         				"URL: " + result.getString("URL") + saltoLinea
                         				+ libro;
                         	
@@ -118,7 +118,7 @@ public class APIFRONT {
                         	
                         	comunicacion =  "COMUNICACION CONGRESO \n"+
                         				"Titulo: " + result.getString("titulo") + saltoLinea+
-                        				"Año: " + result.getString("anyo") + saltoLinea+
+                        				"A&ntilde;o: " + result.getString("anyo") + saltoLinea+
                         				"URL: " + result.getString("URL") + saltoLinea
                         				+ comunicacion;
                         	
