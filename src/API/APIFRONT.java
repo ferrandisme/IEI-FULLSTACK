@@ -37,12 +37,12 @@ public class APIFRONT {
     }
 
     public static int LoadSchoolar(int inicio, int fin) {
-    	/*try {
+    	try {
 			Main.Chrome(inicio, fin);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
         ExtractorScholar scholar = new ExtractorScholar(inicio, fin);
         return scholar.Empezar();
     }
