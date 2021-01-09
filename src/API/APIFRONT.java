@@ -6,6 +6,7 @@ import MySQL.Conexion;
 import Scholar.ExtractorScholar;
 import sample.Main;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,8 @@ import java.util.List;
 import org.json.JSONObject;
 
 public class APIFRONT {
+	
+	private static String saltoLinea = "<br>\r\n";
 
 
        /*
@@ -34,7 +37,12 @@ public class APIFRONT {
     }
 
     public static int LoadSchoolar(int inicio, int fin) {
-    	Main.Chrome(inicio, fin);
+    	/*try {
+			Main.Chrome(inicio, fin);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
         ExtractorScholar scholar = new ExtractorScholar(inicio, fin);
         return scholar.Empezar();
     }
@@ -47,7 +55,6 @@ public class APIFRONT {
 
     public static List<String> Buscar(String autor, String titulo, String inicio, String fin, boolean esArticulo, boolean esLibro, boolean esComunicacionCongreso) {
         Connection con = Conexion.abrirConexion();
-        //TODO Deberiamos ver si lo contiene quiza, en vez de ver si es exactamente el mismo
         String sql = "SELECT * FROM publicacion WHERE titulo LIKE ? AND anyo >= ? AND anyo <= ?;";
         int id = 0;
         //JSONObject resultado = new JSONObject();
@@ -70,15 +77,15 @@ public class APIFRONT {
                         if(articulo != null && articulo.length() > 0) {
                         	articulo += "AUTORES \n";
                         	for(int i = 0; i < autores.size(); i++)
-                        		articulo += autores.get(i) + "\n";
+                        		articulo += autores.get(i) + saltoLinea;
                         	
                         	articulo =  "ARTICULO \n"+
-                        				"Titulo: " + result.getString("titulo") + "\n"+
-                        				"Año: " + result.getString("anyo") + "\n"+
-                        				"URL: " + result.getString("URL") + "\n"
+                        				"Titulo: " + result.getString("titulo") + saltoLinea+
+                        				"Año: " + result.getString("anyo") + saltoLinea+
+                        				"URL: " + result.getString("URL") + saltoLinea
                         				+ articulo;
                         	
-                        	System.out.println("-------------ARTICULO ENCONTRADO-------------  \n" + articulo + "\n" + "-------------------------------");
+                        	System.out.println("-------------ARTICULO ENCONTRADO-------------  \n" + articulo + saltoLinea + "-------------------------------");
                         	//resultado.put(articulo, id++);
                         	resultado.add(articulo);
                         }
@@ -88,49 +95,41 @@ public class APIFRONT {
                         if(libro != null && libro.length() > 0) {
                         	libro += "AUTORES \n";
                         	for(int i = 0; i < autores.size(); i++)
-                        		libro += autores.get(i) + "\n";
+                        		libro += autores.get(i) + saltoLinea;
                         	
                         	libro =  "LIBRO \n"+
-                        				"Titulo: " + result.getString("titulo") + "\n"+
-                        				"Año: " + result.getString("anyo") + "\n"+
-                        				"URL: " + result.getString("URL") + "\n"
+                        				"Titulo: " + result.getString("titulo") + saltoLinea+
+                        				"Año: " + result.getString("anyo") + saltoLinea+
+                        				"URL: " + result.getString("URL") + saltoLinea
                         				+ libro;
                         	
-                        	System.out.println("-------------LIBRO ENCONTRADO-------------  \n" + libro + "\n" + "-------------------------------");
-                        	//resultado.put(articulo, id++);
+                        	System.out.println("-------------LIBRO ENCONTRADO-------------  \n" + libro + saltoLinea + "-------------------------------");
+                        	//resultado.put(libro, id++);
                         	resultado.add(libro);
                         }
                     }
-                    if (esComunicacionCongreso) { //NOT DONE
+                    if (esComunicacionCongreso) {
                        
                     	String comunicacion = esComunicacionCongreso(con, idPublicacion);
                         if(comunicacion != null && comunicacion.length() > 0) {
                         	comunicacion += "AUTORES \n";
                         	for(int i = 0; i < autores.size(); i++)
-                        		comunicacion += autores.get(i) + "\n";
+                        		comunicacion += autores.get(i) + saltoLinea;
                         	
                         	comunicacion =  "COMUNICACION CONGRESO \n"+
-                        				"Titulo: " + result.getString("titulo") + "\n"+
-                        				"Año: " + result.getString("anyo") + "\n"+
-                        				"URL: " + result.getString("URL") + "\n"
+                        				"Titulo: " + result.getString("titulo") + saltoLinea+
+                        				"Año: " + result.getString("anyo") + saltoLinea+
+                        				"URL: " + result.getString("URL") + saltoLinea
                         				+ comunicacion;
                         	
-                        	System.out.println("-------------COMUNICACION ENCONTRADA-------------  \n" + comunicacion + "\n" + "-------------------------------");
-                        	//resultado.put(articulo, id++);
+                        	System.out.println("-------------COMUNICACION ENCONTRADA-------------  \n" + comunicacion + saltoLinea + "-------------------------------");
+                        	//resultado.put(comunicacion, id++);
                         	resultado.add(comunicacion);
                         }
                     }
                 }
             }
-                //TODO devolver de una forma que en el servidor se pueda crear la respuesta
-
-            /*if (result.next()) {
-                System.out.println("PUBLICACION ENCONTRADA:" + result.getInt("idpublicacion"));
-                //Hay que comprobar el autor, y el tipo de publicacion.
-
-            } else {
-                System.out.println("No se han encontrado publicaciones");
-            }*/
+               
             Conexion.cerrarConexion();
         } catch (SQLException e) { e.printStackTrace();
         }
@@ -146,8 +145,8 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Encontrado Articulo " + idPublicacion);
-                String articulo = "Pagina inicio:" + result.getInt("paginainicio") + "\n" +
-                					"Pagina fin:" + result.getInt("paginafin") + "\n";
+                String articulo = "Pagina inicio:" + result.getInt("paginainicio") + saltoLinea +
+                					"Pagina fin:" + result.getInt("paginafin") + saltoLinea;
                 articulo += getEjemplarYRevista(con, result.getInt("id_ejemplar"));
                 return articulo;
                 
@@ -166,7 +165,7 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Encontrado Libro " + idPublicacion);
-                String articulo = "Editorial:" + result.getString("editorial") + "\n";
+                String articulo = "Editorial:" + result.getString("editorial") + saltoLinea;
                 return articulo;
                 
             }
@@ -185,10 +184,10 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 System.out.println("Encontrada Comunicacion " + idPublicacion);
-                String comunicacion = "Edicion:" + result.getString("edicion") + "\n" + 
-                					  "Lugar:" + result.getString("lugar") + "\n" +
-                					  "Pagina Inicio:" + result.getInt("paginainicio") + "\n" +
-                					  "Pagina Fin:" + result.getString("edicion") + "\n" ;
+                String comunicacion = "Edicion:" + result.getString("edicion") + saltoLinea + 
+                					  "Lugar:" + result.getString("lugar") + saltoLinea +
+                					  "Pagina Inicio:" + result.getInt("paginainicio") + saltoLinea +
+                					  "Pagina Fin:" + result.getString("edicion") + saltoLinea ;
                 return comunicacion;
                 
             }
@@ -266,9 +265,9 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 String res = "Ejemplar \n"+ 
-                				"Volumen:" + result.getString("volumen") + "\n" + 
-                				"Numero:" + result.getString("numero") + "\n"+
-                				"Mes:" + result.getString("mes") + "\n";
+                				"Volumen:" + result.getString("volumen") + saltoLinea + 
+                				"Numero:" + result.getString("numero") + saltoLinea+
+                				"Mes:" + result.getString("mes") + saltoLinea;
                 res += getRevista(con, result.getInt("id_revista"));
                 return res;
             }
@@ -286,7 +285,7 @@ public class APIFRONT {
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 String revista = "REVISTA \n"+
-                		"Nombre:" + result.getString("nombre") + "\n";
+                		"Nombre:" + result.getString("nombre") + saltoLinea;
                 return revista;
             }
         } catch (SQLException e) {
@@ -294,6 +293,5 @@ public class APIFRONT {
         }
         return "";
     }
-    
     
 }

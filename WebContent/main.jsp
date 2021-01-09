@@ -96,30 +96,30 @@
 	<!-- Lo siguiente viene de aquí: https://stackoverflow.com/questions/547821/two-submit-buttons-in-one-form -->
 	<!-- Faltaría el código que dice en esa web -->
 	<div class="formulario">
-		<form action="http://localhost:8081/IEI/Resultados.jsp" method="get" id="datos">
+		<form action="http://localhost:8081/IEI/servicios/Resultados/" method="GET" id="datos">
 	      <label>Autor/es:</label><br>
-	      <input type="text" id="buscarAutor" size="50"><br><br>
+	      <input type="text" name="buscarAutor" size="50"><br><br>
 	      
 	      <label>Título:</label><br>
-	      <input type="text" id="buscarTitulo" size="50"><br><br>
+	      <input type="text" name="buscarTitulo" size="50"><br><br>
 	      
 	      <label>Desde el año:</label><br>
-	      <input type="number" id="buscarAnyoIni" size="50"><br><br>
+	      <input type="number" name="buscarAnyoIni" size="50"><br><br>
 	      
 	      <label>Hasta el año:</label><br>
-	      <input type="number" id="buscarAnyoFin" size="50"><br><br>
+	      <input type="number" name="buscarAnyoFin" size="50"><br><br>
 	      
 	      <label>Tipo de publicación:</label><br>
-	      <input type="checkbox" id="pub1">
+	      <input type="checkbox" name="pub1">
 		  <label for="pub1"> Artículo</label><br>
 		  
-		  <input type="checkbox" id="pub2">
+		  <input type="checkbox" name="pub2">
 		  <label for="pub2"> Libro</label><br>
 		  
-		  <input type="checkbox" id="pub3">
+		  <input type="checkbox" name="pub3">
 		  <label for="pub3"> Comunicación en congreso</label><br><br><br>
 	      
-	      <input class = "button1"  type="submit" name="update" value="Enviar" />
+	      <input class = "button1"  type="submit" name="submit" value="Enviar" />
 	      <input class = "button2"  type="button" name="delete" value="Limpiar"  onclick="limpiar()" />
 	      <input class = "button3"  type="button" name="data" value="Cargar datos" onclick="location.href='http://localhost:8081/IEI/CargaDatos.jsp'" />
 
