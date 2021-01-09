@@ -81,7 +81,7 @@ public class APIFRONT {
                         	
                         	articulo =  "ARTICULO \n"+
                         				"Titulo: " + result.getString("titulo") + saltoLinea+
-                        				"Año: " + result.getString("anyo") + saltoLinea+
+                        				"A&ntilde;o: " + result.getString("anyo") + saltoLinea+
                         				"URL: " + result.getString("URL") + saltoLinea
                         				+ articulo;
                         	
