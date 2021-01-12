@@ -31,7 +31,7 @@ public class APIFRONT {
      */
 
     public static int LoadDBP(int inicio, int fin) {
-    	if(!dblpActualizado) {
+    	if(!dblpActualizado) { //Esto evita la recarga continua en el programa, si se realizan varias cargas. 
     		System.out.println("Parseando XML a JSON en DBLP");
     		ParserXML.pasarXMLaJSON();
     		dblpActualizado = true;
