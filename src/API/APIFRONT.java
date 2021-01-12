@@ -4,6 +4,7 @@ import DBLP.ExtractorDBLP;
 import IEEE.ExtractorIEEE;
 import MySQL.Conexion;
 import Scholar.ExtractorScholar;
+import Scholar.Scrapper;
 import sample.Main;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class APIFRONT {
 
     public static int LoadSchoolar(int inicio, int fin) {
     	try {
-			Main.Chrome(inicio, fin);
+			Scrapper.Chrome(inicio, fin);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
