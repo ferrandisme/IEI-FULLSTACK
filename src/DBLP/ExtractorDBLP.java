@@ -156,14 +156,17 @@ public class ExtractorDBLP extends Extractor {
             JSONArray authors =  (JSONArray) oAuthor;
 
             for (int j = 0; j < authors.length(); j++) {
-                String author = Main.Tratar("$", authors.get(j));
+                String author = Main.Tratar("content", authors.get(j));
                 autores.add(author);
             }
         } else {
-            String author = Main.Tratar("$", oAuthor);
+            String author = Main.Tratar("content", oAuthor);
             autores.add(author);
         }
     }
+    
+    
+    
 
     public void TratarAnyo(JSONObject oarticulo)
     {
@@ -234,14 +237,16 @@ public class ExtractorDBLP extends Extractor {
         else if (oURL instanceof org.json.JSONArray) {
             JSONArray URLS =  (JSONArray) oURL;
             if(!Main.NoJSON(URLS.get(0).toString()))
-                URL = Main.Tratar( "$" , URLS.get(0));
+                URL = Main.Tratar( "content" , URLS.get(0));
             else
                 URL = URLS.get(0).toString();
         } else {
-            if(!Main.NoJSON(oURL.toString()))
-                URL = oURL.toString();
-            else
-                URL = Main.TratarJSON( "$" , (JSONObject) oURL);
+            if(Main.NoJSON(oURL.toString())) {
+            	URL = oURL.toString();
+            }
+            else {
+                URL = Main.TratarJSON( "content" , (JSONObject) oURL);
+            }
         }
     }
 

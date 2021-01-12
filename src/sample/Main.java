@@ -58,9 +58,8 @@ public class Main {
 
     //EJEMPLO LLAMADA A MAIN
     // "busqueda" "" "Information Uses and Gratifications Related to Crisis: Student Perceptions since the Egyptian Uprising" "0" "2020"
-    public static void main(String[] args) throws TokenMgrException, ParseException, IOException{
-    	
-    	
+    public static void main(String[] args){
+
     	//Ejemplo comentado
     	//APIFRONT.Buscar("","Developing a Framework for Assessing Responsible Conduct of Research","0","2020",true,false,false);
     	//System.out.println("Fin ejecucion");

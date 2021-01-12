@@ -1,6 +1,7 @@
 package API;
 
 import DBLP.ExtractorDBLP;
+import DBLP.ParserXML;
 import IEEE.ExtractorIEEE;
 import MySQL.Conexion;
 import Scholar.ExtractorScholar;
@@ -20,6 +21,8 @@ import org.json.JSONObject;
 public class APIFRONT {
 	
 	private static String saltoLinea = "<br>\r\n";
+	
+	private static boolean dblpActualizado = false;
 
 
        /*
@@ -28,6 +31,11 @@ public class APIFRONT {
      */
 
     public static int LoadDBP(int inicio, int fin) {
+    	if(!dblpActualizado) {
+    		System.out.println("Parseando XML a JSON en DBLP");
+    		ParserXML.pasarXMLaJSON();
+    		dblpActualizado = true;
+    	}
         ExtractorDBLP DBLP = new ExtractorDBLP(inicio, fin);
         return DBLP.Empezar();
     }
