@@ -3,6 +3,7 @@ package API;
 import DBLP.ExtractorDBLP;
 import DBLP.ParserXML;
 import IEEE.ExtractorIEEE;
+import IEEE.LlamadaAPI;
 import MySQL.Conexion;
 import Scholar.ExtractorScholar;
 import Scholar.Scrapper;
@@ -41,6 +42,7 @@ public class APIFRONT {
     }
 
     public static int LoadIEEE(int inicio, int fin) {
+    	LlamadaAPI.cargaAPI(inicio, fin);
         ExtractorIEEE IEEE = new ExtractorIEEE(inicio, fin);
         return IEEE.Empezar();
     }

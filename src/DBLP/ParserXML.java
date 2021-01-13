@@ -31,6 +31,7 @@ public class ParserXML {
 					fileWriter.write(xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR));
 					jsonPrettyPrintString= xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);
 					//System.out.println(jsonPrettyPrintString);
+					fileWriter.close();
 				} catch (IOException e) {
 					System.out.println("No se ha podido escribir el JSON");
 					System.out.println(e.getMessage());

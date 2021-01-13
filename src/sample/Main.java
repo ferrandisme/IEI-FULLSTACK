@@ -3,6 +3,7 @@ package sample;
 import API.APIFRONT;
 import DBLP.*;
 import IEEE.ExtractorIEEE;
+import IEEE.LlamadaAPI;
 import MySQL.Conexion;
 import Scholar.ExtractorScholar;
 /*import javafx.application.Application;
@@ -64,6 +65,7 @@ public class Main {
     	//APIFRONT.Buscar("","Developing a Framework for Assessing Responsible Conduct of Research","0","2020",true,false,false);
     	//System.out.println("Fin ejecucion");
     	
+    	APIFRONT.LoadIEEE(2020, 2020);
     	
         /*
         try {

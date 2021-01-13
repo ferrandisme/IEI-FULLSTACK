@@ -65,6 +65,7 @@ public class ExtractorIEEE extends Extractor {
             }
         }catch(IOException e)
         {
+        	System.out.println("Error leyendo la carga");
             e.printStackTrace();
         }
         return total;
