@@ -28,7 +28,7 @@ import org.jbibtex.Key;
 import org.jbibtex.ParseException;
 import org.jbibtex.TokenMgrException;
 import org.jbibtex.Value;
-import org.apache.tomcat.jni.Time;
+//import org.apache.tomcat.jni.Time;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
 import org.jbibtex.BibTeXObject;

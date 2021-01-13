@@ -51,6 +51,9 @@ public class APIFRONT {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
         ExtractorScholar scholar = new ExtractorScholar(inicio, fin);
         return scholar.Empezar();
