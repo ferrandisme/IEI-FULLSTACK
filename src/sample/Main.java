@@ -65,7 +65,7 @@ public class Main {
     	//APIFRONT.Buscar("","Developing a Framework for Assessing Responsible Conduct of Research","0","2020",true,false,false);
     	//System.out.println("Fin ejecucion");
     	
-    	APIFRONT.LoadIEEE(2020, 2020);
+    	//APIFRONT.LoadIEEE(2020, 2020);
     	
         /*
         try {
