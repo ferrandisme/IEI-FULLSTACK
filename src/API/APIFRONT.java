@@ -89,15 +89,19 @@ public class APIFRONT {
                         //Comprueba si existe un articulo con ese ID
                         String articulo = esArticulo(con, idPublicacion);
                         if(articulo != null && articulo.length() > 0) {
-                        	articulo += "AUTORES \n";
-                        	for(int i = 0; i < autores.size(); i++)
-                        		articulo += autores.get(i) + saltoLinea;
+                        	articulo += saltoLinea + "AUTORES:" + saltoLinea + "&nbsp &nbsp &nbsp &nbsp ";
+                        	for(int i = 0; i < autores.size(); i++) {
+                        		if (i == autores.size() - 1)
+                        			articulo += autores.get(i);
+                        		else
+                        			articulo += autores.get(i) + ", ";
+                        	}
                         	
-                        	articulo =  "ARTICULO \n"+
+                        	articulo =  "<b>ARTICULO</b>" + saltoLinea +
                         				"Titulo: " + result.getString("titulo") + saltoLinea+
                         				"A&ntilde;o: " + result.getString("anyo") + saltoLinea+
                         				"URL: " + result.getString("URL") + saltoLinea
-                        				+ articulo;
+                        				+ articulo + saltoLinea + "<hr>";
                         	
                         	System.out.println("-------------ARTICULO ENCONTRADO-------------  \n" + articulo + saltoLinea + "-------------------------------");
                         	//resultado.put(articulo, id++);
@@ -107,15 +111,19 @@ public class APIFRONT {
                     if (esLibro) {
                     	String libro = esLibro(con, idPublicacion);
                         if(libro != null && libro.length() > 0) {
-                        	libro += "AUTORES \n";
-                        	for(int i = 0; i < autores.size(); i++)
-                        		libro += autores.get(i) + saltoLinea;
+                        	libro += saltoLinea + "AUTORES:" + saltoLinea + "&nbsp &nbsp &nbsp &nbsp ";
+                        	for(int i = 0; i < autores.size(); i++) {
+                        		if (i == autores.size() - 1)
+                        			libro += autores.get(i);
+                        		else
+                        			libro += autores.get(i) + ", ";
+                        	}
                         	
-                        	libro =  "LIBRO \n"+
+                        	libro =  "<b>LIBRO</b>" + saltoLinea +
                         				"Titulo: " + result.getString("titulo") + saltoLinea+
                         				"A&ntilde;o: " + result.getString("anyo") + saltoLinea+
                         				"URL: " + result.getString("URL") + saltoLinea
-                        				+ libro;
+                        				+ libro + saltoLinea + "<hr>";
                         	
                         	System.out.println("-------------LIBRO ENCONTRADO-------------  \n" + libro + saltoLinea + "-------------------------------");
                         	//resultado.put(libro, id++);
@@ -126,15 +134,19 @@ public class APIFRONT {
                        
                     	String comunicacion = esComunicacionCongreso(con, idPublicacion);
                         if(comunicacion != null && comunicacion.length() > 0) {
-                        	comunicacion += "AUTORES \n";
-                        	for(int i = 0; i < autores.size(); i++)
-                        		comunicacion += autores.get(i) + saltoLinea;
+                        	comunicacion += saltoLinea + "AUTORES:" + saltoLinea + "&nbsp &nbsp &nbsp &nbsp ";
+                        	for(int i = 0; i < autores.size(); i++) {
+                        		if (i == autores.size() - 1)
+                        			comunicacion += autores.get(i);
+                        		else
+                        			comunicacion += autores.get(i) + ", ";
+                        	}
                         	
-                        	comunicacion =  "COMUNICACION CONGRESO \n"+
+                        	comunicacion =  "<b>COMUNICACION CONGRESO</b>" + saltoLinea +
                         				"Titulo: " + result.getString("titulo") + saltoLinea+
                         				"A&ntilde;o: " + result.getString("anyo") + saltoLinea+
                         				"URL: " + result.getString("URL") + saltoLinea
-                        				+ comunicacion;
+                        				+ comunicacion + saltoLinea + "<hr>";
                         	
                         	System.out.println("-------------COMUNICACION ENCONTRADA-------------  \n" + comunicacion + saltoLinea + "-------------------------------");
                         	//resultado.put(comunicacion, id++);
@@ -278,10 +290,10 @@ public class APIFRONT {
             statement.setString(1, idEjemplar + "");
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                String res = "Ejemplar \n"+ 
-                				"Volumen:" + result.getString("volumen") + saltoLinea + 
-                				"Numero:" + result.getString("numero") + saltoLinea+
-                				"Mes:" + result.getString("mes") + saltoLinea;
+                String res = saltoLinea + "EJEMPLAR" + saltoLinea + 
+                				"&nbsp &nbsp &nbsp &nbsp Volumen:" + result.getString("volumen") + saltoLinea + 
+                				"&nbsp &nbsp &nbsp &nbsp Numero:" + result.getString("numero") + saltoLinea+
+                				"&nbsp &nbsp &nbsp &nbsp Mes:" + result.getString("mes") + saltoLinea;
                 res += getRevista(con, result.getInt("id_revista"));
                 return res;
             }
@@ -298,8 +310,8 @@ public class APIFRONT {
             statement.setString(1, idrevista + "");
             ResultSet result = statement.executeQuery();
             if (result.next()) {
-                String revista = "REVISTA \n"+
-                		"Nombre:" + result.getString("nombre") + saltoLinea;
+                String revista = saltoLinea + "REVISTA: " + saltoLinea + "&nbsp &nbsp &nbsp &nbsp " +
+                		result.getString("nombre") + saltoLinea;
                 return revista;
             }
         } catch (SQLException e) {
