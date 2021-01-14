@@ -29,8 +29,12 @@ public class ExtractorScholar extends Extractor {
             JSONObject o = new JSONObject(contents);
             JSONArray articulos = (JSONArray) o.get("articles");
             JSONArray libros = (JSONArray) ( o.get("books"));
-            JSONObject inproceedings =(JSONObject) (o.get("inproceedings"));
-            JSONObject incollection = (JSONObject) ( o.get("incollection"));
+            JSONArray inproceedings =(JSONArray) (o.get("inproceedings"));
+            //JSONArray incollection = (JSONArray) ( o.get("incollection"));
+            
+            
+            
+            
 
             for (int i = 0; i < articulos.length(); i++) {
                 System.out.println("ScholarArticulo " + i);
@@ -48,6 +52,7 @@ public class ExtractorScholar extends Extractor {
                         TratarURL(oarticulo);
                         TratarPaginas(oarticulo);
                         TratarRevista(oarticulo);
+                        TratarNumeroEjemplar(oarticulo);
                         TratarVolumen(oarticulo);
                         if(CrearObjetosBaseDeDatos())
                         	total++;
@@ -93,21 +98,23 @@ public class ExtractorScholar extends Extractor {
 
 
             }
-
+            for (int i = 0; i < inproceedings.length(); i++) {
             System.out.println("ScholarInproccedings " + 0);
 
+            JSONObject oinproceedings = inproceedings.getJSONObject(i);
+            
             ReiniciarVariables();
 
             try {
 
-                TratarAnyo(inproceedings);
+                TratarAnyo(oinproceedings);
                 if (anyoFin >= Integer.parseInt(anyo) && anyoInicio <= Integer.parseInt(anyo)) {
-                    TratarAutores(inproceedings);
-                    TratarTitulo(inproceedings);
-                    TratarPaginas(inproceedings);
-                    TratarEdicion(inproceedings);
-                    TratarLugar(inproceedings);
-                    TratarTituloLibro(incollection);
+                    TratarAutores(oinproceedings);
+                    TratarTitulo(oinproceedings);
+                    TratarPaginas(oinproceedings);
+                    TratarEdicion(oinproceedings);
+                    TratarLugar(oinproceedings);
+                    TratarTituloLibro(oinproceedings);
 
                     if(CrearObjetosBaseDeDatosComunicacion())
                         total++;
@@ -119,6 +126,7 @@ public class ExtractorScholar extends Extractor {
             catch(Exception e) {
                 System.err.println("Abortada la creacion por un error al interpretar el JSON");
                 e.printStackTrace();
+            }
             }
 
             /*System.out.println("ScholarIncollection " + 0);

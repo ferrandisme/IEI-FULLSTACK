@@ -1,18 +1,9 @@
 package Scholar;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,22 +12,18 @@ import java.util.Set;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
 import org.jbibtex.BibTeXParser;
-import org.jbibtex.BibTeXString;
 import org.jbibtex.Key;
 import org.jbibtex.ParseException;
 import org.jbibtex.TokenMgrException;
 import org.jbibtex.Value;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.XML;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
-import DBLP.ExtractorDBLP;
 
 public class Scrapper {
 
@@ -46,22 +33,6 @@ public class Scrapper {
 	
 	static BibTeXParser parser;
 	static BibTeXDatabase database;
-    	
-	/*
-	Chrome(1970, 1990);
-    	
-    	reader = new FileReader(argumento);
-    	json = new JSONObject();
-    	
-    	Collection<BibTeXString> listado;
-    	
-    	parser = new BibTeXParser();
-    	database = parser.parse(reader);
-    	
-    	listado = database.getStrings().values();
-	 */
-	
-	//public static String path = System.getProperty("user.home") + "\\AppData\\LocalLow\\IEI";
 
     public static void Chrome(int inicio, int fin) throws IOException, InterruptedException{
         String exepath = "C:\\Users\\jaime\\IdeaProjects\\IEI\\chromedriver.exe";
@@ -100,6 +71,7 @@ public class Scrapper {
         JSONArray libros = new JSONArray();
         JSONArray articulos = new JSONArray();
         JSONArray incollection = new JSONArray();
+        JSONArray inproceedings = new JSONArray();
         boolean present = true;
         int maximoElementos= 20; //Para simplificar la busqueda en entornos de demo
         int total = 0;
@@ -113,17 +85,13 @@ public class Scrapper {
             try{
                 //leer elemento
             	List<WebElement> listaElementos = driver.findElements(By.xpath("//*[contains(@class, 'gs_r gs_or gs_scl')]"));
-        		//System.out.println("Número de elementos de la lista: " + listaElementos.size());
         		// Obtener cada uno de los artículos
         		for (int i=0; i<listaElementos.size(); i++){
-        			//List<WebElement> listaElementos2 = driver.findElements(By.xpath("//*[contains(@class, 'gs_r gs_or gs_scl')]"));
         			List<WebElement> listaImports = driver.findElements(By.xpath("//*[contains(@class, 'gs_nta gs_nph')]"));
-        			WebElement elementoActual, navegacion, text;
-        			//elementoActual = listaElementos2.get(i);
+        			WebElement navegacion, text;
         			navegacion = listaImports.get(i);
         			navegacion.click();
         			text = driver.findElement(By.xpath("/html/body/pre"));
-        			//System.out.println(text.getText());
         			argumento = text.getText();
         			String aux = argumento.replace("{\\'o}", "ó");
         			aux = aux.replace("{\\'a}", "á");
@@ -132,25 +100,20 @@ public class Scrapper {
         			aux = aux.replace("{\\'\\i}", "í");
         			aux = aux.replace("{\\~n}", "ñ");
         			aux = aux.replace("{\\`\\i}", "í");
-        			aux = aux.replace("{\\\"u}", "ü");
-        			//System.out.println(aux);
-        			//writer.write(text.getText());
         			driver.navigate().back();
         			scholar = JSONfromBibtex(aux);
         			if(aux.contains("@book")) {
         				libros.put(scholar);
-        				//System.out.println(libros);
         			}
         			if(aux.contains("@article")) {
         				articulos.put(scholar);
-        				//System.out.println(articulos);
         			}
         			if(aux.contains("@incollection")) {
         				incollection.put(scholar);
-        				//System.out.println(incollection);
         			}
-        			//System.out.println(scholar.toString(4));
-        			//entradas += scholar.toString(4) + ",\n";
+        			if(aux.contains("@inproceedings")) {
+        				inproceedings.put(scholar);
+        			}
         			
         			//si llega aqui, es porque existe si no salta al catch
         			total++;
@@ -158,8 +121,6 @@ public class Scrapper {
         			}
         		try {
         			WebElement siguiente = driver.findElement(By.xpath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[2]/center/table/tbody/tr/td[12]/a/b"));
-        			//WebElement anterior = driver.findElement(By.xpath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[2]/center/table/tbody/tr/td[1]/a/b"));
-        			//anterior.click();
         			siguiente.click();
         		} catch (NoSuchElementException e) {
         			//present = false;
@@ -171,22 +132,16 @@ public class Scrapper {
             }
         } 
         prueba.put("books", libros);
-        prueba.put("articulos", articulos);
+        prueba.put("articles", articulos);
         prueba.put("incollection", incollection);
+        prueba.put("inproceedings", inproceedings);
         entradas = prueba.toString(4);
-        //System.out.println(prueba.toString(4));
 
-		//JSONObject scholar = JSONfromBibtex(argumento);
-		//System.out.println(scholar.toString(4));
 		String jsonFile = ExtractorScholar.path + "\\Scholar.json";
-		String jsonPrettyPrintString = null;
-		File file = new File(jsonFile);
 		
 			try(FileWriter fileWriter = new FileWriter(jsonFile)){
-				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
 				fileWriter.write(entradas);
-				jsonPrettyPrintString = entradas;
-				//System.out.println(jsonPrettyPrintString);
+				fileWriter.close();
 			} catch (IOException e) {
 				System.out.println("No se ha podido escribir el JSON");
 				System.out.println(e.getMessage());
@@ -217,7 +172,6 @@ public class Scrapper {
     			aux2 = aux2.replace("{\\~n}", "ñ");
     			aux2 = aux2.replace("{\\`\\i}", "í");
     			aux2 = aux2.replace("{\\\"u}", "ü");
-    			//System.out.println(key.toString());
                 jsonPublication.put(key.toString(), aux2);
             }
             

@@ -58,79 +58,11 @@ import java.util.Set;
 
 public class Main {
 
-    //EJEMPLO LLAMADA A MAIN
-    // "busqueda" "" "Information Uses and Gratifications Related to Crisis: Student Perceptions since the Egyptian Uprising" "0" "2020"
+	
     public static void main(String[] args){
 
-    	//Ejemplo comentado
-    	//APIFRONT.Buscar("","Developing a Framework for Assessing Responsible Conduct of Research","0","2020",true,false,false);
-    	//System.out.println("Fin ejecucion");
-    	
-    	//APIFRONT.LoadIEEE(2020, 2020);
-    	/*try {
-			Scrapper.Chrome(1970, 1990);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        /*
-        try {
-            String type = args[0]; //
-
-            if(type.equals("carga")){
-                String db = args[1];
-                int startYear = Integer.parseInt(args[2]);
-                int endYear = Integer.parseInt(args[3]);
-                System.out.println("Carga " + db + " (" + startYear + "-" + endYear + ")");
-                switch (db) {
-                    case "DBLP":
-                        APIFRONT.LoadDBP(startYear, endYear);
-                        break;
-                    case "IEEE":
-                        APIFRONT.LoadIEEE(startYear, endYear);
-                        break;
-                    case "SCHOOLAR":
-                        APIFRONT.LoadSchoolar(startYear, endYear);
-                        break;
-                    default:
-                        throw new Exception("[1-2-3] no valido");
-                }
-            }else if(type.equals("busqueda")){
-                //TODO cambiar true por los ticks del formulario, cuando se acabe de hacer la API
-                System.out.println("--DATOS BUSQUEDA-- \n autor: " + args[1]  +" \n titulo: "+ args[2] +" \n año inicio: "+ args[3] +" \n año fin: "+ args[4] +"\n------------------");
-                APIFRONT.Buscar(args[1], args[2], args[3], args[4], true, true, true);
-            }
-            else
-                throw new Exception("[0] no valido " + args[0]);
-        }catch(Exception e){
-            System.out.println("Error leyendo argumentos " + args);
-            e.printStackTrace();
-            System.out.println("Abortando ejecucion del backend");
-            System.exit(-1);
-        }
-        //launch(args); Hace que runee start
-        System.exit(0);
-        */
     }
-
-    /*@Override
-    public void start(Stage primaryStage) throws Exception{
-        //ProcesarJSON();
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        //primaryStage.setTitle("Hello World");
-        //primaryStage.setScene(new Scene(root, 300, 275));
-        //primaryStage.show();
-
-        //Metodos de ejemplo
-
-        APIFRONT.LoadSchoolar(0,2022);
-
-        APIFRONT.Buscar("", "Information Uses and Gratifications Related to Crisis: Student Perceptions since the Egyptian Uprising", "0", "2020", true, true, true);
-    }*/
-
+    
     public static String TratarJSON(String argumento, JSONObject objeto)
     {
         String s = objeto.get(argumento).toString();
