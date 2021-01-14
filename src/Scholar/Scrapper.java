@@ -1,12 +1,16 @@
 package Scholar;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -88,9 +92,11 @@ public class Scrapper {
         anyoFin.sendKeys(fin + "");
         WebElement buscar = driver.findElement(By.xpath("html/body/div/div[4]/div/div[1]/div/button/span/span[1]"));
         buscar.click();
+        String entradas = "";
         String argumento = "";
+        JSONObject scholar = null;
         boolean present = true;
-        int maximoElementos= 20; //Para simplificar la busqueda en entornos de demo
+        int maximoElementos= 40; //Para simplificar la busqueda en entornos de demo
         int total = 0;
         int numeroMaximoIntentos = 10;
         int intentosActuales = 0;
@@ -113,15 +119,30 @@ public class Scrapper {
         			navegacion.click();
         			text = driver.findElement(By.xpath("/html/body/pre"));
         			//System.out.println(text.getText());
-        			argumento += text.getText();
+        			argumento = text.getText();
+        			String aux = argumento.replace("{\\'o}", "ó");
+        			aux = aux.replace("{\\'a}", "á");
+        			aux = aux.replace("{\\'e}", "é");
+        			aux = aux.replace("{\\'u}", "ú");
+        			aux = aux.replace("{\\'\\i}", "í");
+        			aux = aux.replace("{\\~n}", "ñ");
+        			aux = aux.replace("{\\`\\i}", "í");
+        			aux = aux.replace("{\\\"u}", "ü");
+        			System.out.println(aux);
         			//writer.write(text.getText());
         			driver.navigate().back();
+        			scholar = JSONfromBibtex(argumento);
+        			System.out.println(scholar.toString(4));
+        			entradas += scholar.toString(4) + ",\n";
+        			
         			//si llega aqui, es porque existe si no salta al catch
         			total++;
         			intentosActuales = 0;
         			}
         		try {
         			WebElement siguiente = driver.findElement(By.xpath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[2]/center/table/tbody/tr/td[12]/a/b"));
+        			//WebElement anterior = driver.findElement(By.xpath("/html/body/div/div[10]/div[2]/div[2]/div[3]/div[2]/center/table/tbody/tr/td[1]/a/b"));
+        			//anterior.click();
         			siguiente.click();
         		} catch (NoSuchElementException e) {
         			//present = false;
@@ -134,14 +155,17 @@ public class Scrapper {
         } 
         //System.out.println(argumento);
 
-		JSONObject scholar = JSONfromBibtex(argumento);
+		//JSONObject scholar = JSONfromBibtex(argumento);
+		//System.out.println(scholar.toString(4));
 		String jsonFile = ExtractorScholar.path + "\\Scholar.json";
 		String jsonPrettyPrintString = null;
+		File file = new File(jsonFile);
 		
 			try(FileWriter fileWriter = new FileWriter(jsonFile)){
-				fileWriter.write(scholar.toString(4));
-				jsonPrettyPrintString= scholar.toString(4);
-				System.out.println(jsonPrettyPrintString);
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+				fileWriter.write(entradas);
+				jsonPrettyPrintString = entradas;
+				//System.out.println(jsonPrettyPrintString);
 			} catch (IOException e) {
 				System.out.println("No se ha podido escribir el JSON");
 				System.out.println(e.getMessage());
@@ -156,17 +180,26 @@ public class Scrapper {
             BibTeXParser bibtexParser = new BibTeXParser();
             BibTeXDatabase database = bibtexParser.parse(bibtexReader);
             jsonPublication.put(bibtexPublication, true);
-            //entriesCollection = database.getEntries().values();
+            entriesCollection = database.getEntries().values();
 
-            /*BibTeXEntry entry = entriesCollection.iterator().next();
+            BibTeXEntry entry = entriesCollection.iterator().next();
             Map<Key,Value> bibtexFields = entry.getFields();
             Set<Key> bibtexKeys = bibtexFields.keySet();
 
             for(Key key : bibtexKeys) {
                 String keyValue = bibtexFields.get(key).toUserString();
-                jsonPublication.put(key.toString(), keyValue);
-            }*/
-
+                String aux2 = keyValue.replace("{\\'o}", "ó");
+    			aux2 = aux2.replace("{\\'a}", "á");
+    			aux2 = aux2.replace("{\\'e}", "é");
+    			aux2 = aux2.replace("{\\'u}", "ú");
+    			aux2 = aux2.replace("{\\'\\i}", "í");
+    			aux2 = aux2.replace("{\\~n}", "ñ");
+    			aux2 = aux2.replace("{\\`\\i}", "í");
+    			aux2 = aux2.replace("{\\\"u}", "ü");
+    			System.out.println(aux2);
+                jsonPublication.put(key.toString(), aux2);
+            }
+            
         } catch (TokenMgrException e) {
             e.printStackTrace();
         } catch (ParseException e) {

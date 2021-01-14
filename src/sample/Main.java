@@ -6,6 +6,7 @@ import IEEE.ExtractorIEEE;
 import IEEE.LlamadaAPI;
 import MySQL.Conexion;
 import Scholar.ExtractorScholar;
+import Scholar.Scrapper;
 /*import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -66,7 +67,15 @@ public class Main {
     	//System.out.println("Fin ejecucion");
     	
     	//APIFRONT.LoadIEEE(2020, 2020);
-    	
+    	/*try {
+			Scrapper.Chrome(1970, 1990);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         /*
         try {
             String type = args[0]; //
