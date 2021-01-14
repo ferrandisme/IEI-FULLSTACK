@@ -26,6 +26,7 @@ import org.jbibtex.Key;
 import org.jbibtex.ParseException;
 import org.jbibtex.TokenMgrException;
 import org.jbibtex.Value;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.openqa.selenium.By;
@@ -95,8 +96,12 @@ public class Scrapper {
         String entradas = "";
         String argumento = "";
         JSONObject scholar = null;
+        JSONObject prueba = new JSONObject();
+        JSONArray libros = new JSONArray();
+        JSONArray articulos = new JSONArray();
+        JSONArray incollection = new JSONArray();
         boolean present = true;
-        int maximoElementos= 40; //Para simplificar la busqueda en entornos de demo
+        int maximoElementos= 20; //Para simplificar la busqueda en entornos de demo
         int total = 0;
         int numeroMaximoIntentos = 10;
         int intentosActuales = 0;
@@ -131,9 +136,21 @@ public class Scrapper {
         			//System.out.println(aux);
         			//writer.write(text.getText());
         			driver.navigate().back();
-        			scholar = JSONfromBibtex(argumento);
+        			scholar = JSONfromBibtex(aux);
+        			if(aux.contains("@book")) {
+        				libros.put(scholar);
+        				//System.out.println(libros);
+        			}
+        			if(aux.contains("@article")) {
+        				articulos.put(scholar);
+        				//System.out.println(articulos);
+        			}
+        			if(aux.contains("@incollection")) {
+        				incollection.put(scholar);
+        				//System.out.println(incollection);
+        			}
         			//System.out.println(scholar.toString(4));
-        			entradas += scholar.toString(4) + ",\n";
+        			//entradas += scholar.toString(4) + ",\n";
         			
         			//si llega aqui, es porque existe si no salta al catch
         			total++;
@@ -153,7 +170,11 @@ public class Scrapper {
                 Thread.sleep(5000);
             }
         } 
-        //System.out.println(argumento);
+        prueba.put("books", libros);
+        prueba.put("articulos", articulos);
+        prueba.put("incollection", incollection);
+        entradas = prueba.toString(4);
+        //System.out.println(prueba.toString(4));
 
 		//JSONObject scholar = JSONfromBibtex(argumento);
 		//System.out.println(scholar.toString(4));
@@ -196,7 +217,7 @@ public class Scrapper {
     			aux2 = aux2.replace("{\\~n}", "ñ");
     			aux2 = aux2.replace("{\\`\\i}", "í");
     			aux2 = aux2.replace("{\\\"u}", "ü");
-    			//System.out.println(aux2);
+    			//System.out.println(key.toString());
                 jsonPublication.put(key.toString(), aux2);
             }
             
