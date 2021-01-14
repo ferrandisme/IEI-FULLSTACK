@@ -128,11 +128,11 @@ public class Scrapper {
         			aux = aux.replace("{\\~n}", "ñ");
         			aux = aux.replace("{\\`\\i}", "í");
         			aux = aux.replace("{\\\"u}", "ü");
-        			System.out.println(aux);
+        			//System.out.println(aux);
         			//writer.write(text.getText());
         			driver.navigate().back();
         			scholar = JSONfromBibtex(argumento);
-        			System.out.println(scholar.toString(4));
+        			//System.out.println(scholar.toString(4));
         			entradas += scholar.toString(4) + ",\n";
         			
         			//si llega aqui, es porque existe si no salta al catch
@@ -196,7 +196,7 @@ public class Scrapper {
     			aux2 = aux2.replace("{\\~n}", "ñ");
     			aux2 = aux2.replace("{\\`\\i}", "í");
     			aux2 = aux2.replace("{\\\"u}", "ü");
-    			System.out.println(aux2);
+    			//System.out.println(aux2);
                 jsonPublication.put(key.toString(), aux2);
             }
             
